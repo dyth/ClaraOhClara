@@ -2,6 +2,8 @@
 import numpy as np
 from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
+from math import ceil, floor
+from decimal import Decimal
 
 
 def interpolate(x, y):
@@ -20,6 +22,23 @@ def interpolate(x, y):
         f2 = interp1d(x, y, kind='cubic')
     return f2
 
+
+def nearest_upper_note(x):
+    'if note is an integer, then it is not interpolated, do not edit'
+    if abs(x - int(x)) < 0.00000000000001:
+        return float(int(x))
+    else:
+        return 0.5*ceil(2.0*x)
+
+
+def nearest_lower_note(x):
+    'if note is an integer, then it is not interpolated, do not edit'
+    if abs(x - int(x)) < 0.00000000000001:
+        return float(int(x))
+    else:
+        return 0.5*floor(2.0*x)
+
+
 x = [0.0, 2.0, 4.0]
 y = [3.0, 1.0, 1.0]
 
@@ -28,12 +47,23 @@ f2 = interpolate(x, y)
 
 xnew = np.linspace(0.0, 4.0, num=40)
 xtune = range(int(x[-1]) + 1)
+tune = f2(xtune)
+
+floors = [nearest_lower_note(t) for t in tune]
+ceilings = [nearest_upper_note(t) for t in tune]
+
+print tune
+print [2.0*t for t in tune]
+print "ceilings", ceilings
+print "floors", floors
 
 plt.plot(
     x, y, 'o',
-    xnew, f(xnew), '-',
     xnew, f2(xnew), '--',
-    xtune, f2(xtune), '-'
+    xtune, tune, '-',
+    xtune, ceilings, '-',
+    xtune, floors, '-'
 )
-plt.legend(['data', 'linear', 'cubic', 'tune'], loc='best')
+plt.legend(['data', 'interpolation', 'tune', 'ceiling', 'floor'], loc='best')
+plt.savefig('clara.png', dpi=200)
 plt.show()
