@@ -1,16 +1,20 @@
 #!/usr/bin/env python
 """create a salt from a theme motif"""
+import numpy as np
+from scipy.interpolate import interp1d
+import matplotlib.pyplot as plt
 
-def convert_known(salt):
+notes = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+
+def convert_known(salt, notesEnum):
     'from salt, convert all known notes'
     salt = salt.lower()
-
     theme, positions = [], []
-    for s in salt:
-        if s in notes:
-            theme.append(s)
-    theme = [notesEnum[t] for t in theme]
-    return theme, positions
+    for i in range(len(salt)):
+        if salt[i] in notes:
+            positions.append(i)
+            theme.append(notesEnum[salt[i]])
+    return positions, theme
 
 
 def interpolate(x, y):
@@ -26,5 +30,22 @@ def interpolate(x, y):
         f2 = interp1d(x, y, kind='quadratic')
     else:
         # otherwise do cubic interpolation
-        f2 = = interp1d(x, y, kind='cubic')
+        f2 = interp1d(x, y, kind='cubic')
     return f2(range(x[-1] + 1))
+
+
+notesEnum = {
+    'a': 1,
+    'b': 2,
+    'c': 3,
+    'd': 4,
+    'e': 5,
+    'f': 6,
+    'g': 7,
+    '_': 0
+}
+    
+salt = "Clara"
+positions, theme = convert_known(salt, notesEnum)
+theme = interpolate(positions, theme)
+print theme

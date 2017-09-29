@@ -3,19 +3,6 @@ import numpy as np
 from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
 
-x = [0.0, 2.0, 4.0]
-y = [3.0, 1.0, 1.0]
-
-f = interp1d(x, y)
-f2 = interp1d(x, y, kind='quadratic')
-xnew = np.linspace(0.0, 4.0, num=40)
-
-plt.plot(x, y, 'o', xnew, f(xnew), '-', xnew, f2(xnew), '--')
-plt.legend(['data', 'linear', 'cubic'], loc='best')
-plt.show()
-
-print xnew, f2()
-
 
 def interpolate(x, y):
     'interpolate salt from known notes at x'
@@ -30,5 +17,23 @@ def interpolate(x, y):
         f2 = interp1d(x, y, kind='quadratic')
     else:
         # otherwise do cubic interpolation
-        f2 = = interp1d(x, y, kind='cubic')
-    return f2(range(x[-1] + 1))
+        f2 = interp1d(x, y, kind='cubic')
+    return f2
+
+x = [0.0, 2.0, 4.0]
+y = [3.0, 1.0, 1.0]
+
+f = interp1d(x, y)
+f2 = interpolate(x, y)
+
+xnew = np.linspace(0.0, 4.0, num=40)
+xtune = range(int(x[-1]) + 1)
+
+plt.plot(
+    x, y, 'o',
+    xnew, f(xnew), '-',
+    xnew, f2(xnew), '--',
+    xtune, f2(xtune), '-'
+)
+plt.legend(['data', 'linear', 'cubic', 'tune'], loc='best')
+plt.show()

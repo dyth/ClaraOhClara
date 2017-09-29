@@ -2,7 +2,7 @@
 
 **Prerequisites**: [Lilypond](http://lilypond.org/)
 
-![ClaraOhClara](https://github.com/dyth/ClaraOhClara/blob/master/ClaraOhClara.png)
+![ClaraOhClara](https://github.com/dyth/ClaraOhClara/blob/master/examples/ClaraOhClara.png)
 
 This respository was created following the culmination of a successful prank. For some inane postmodern reason, copies of `Clara, oh Clara` mysteriously appeared (overnight) on our desks.
 
