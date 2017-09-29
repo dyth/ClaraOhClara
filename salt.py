@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """create an initial salt from an original string"""
 import numpy as np
+from scipy.interpolate import interp1d
 
 notes = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
 
