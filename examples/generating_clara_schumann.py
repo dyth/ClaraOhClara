@@ -24,7 +24,7 @@ def interpolate(x, y):
 
 
 def nearest_upper_note(x):
-    'if note is an integer, then it is not interpolated, do not edit'
+    'if note within representational error, it is not interpolated, do not edit\    otherwise take upper 0.5'
     if abs(x - int(x)) < 0.00000000000001:
         return float(int(x))
     else:
@@ -32,7 +32,7 @@ def nearest_upper_note(x):
 
 
 def nearest_lower_note(x):
-    'if note is an integer, then it is not interpolated, do not edit'
+    'if note within representational error, it is not interpolated, do not edit\    otherwise take lower 0.5'
     if abs(x - int(x)) < 0.00000000000001:
         return float(int(x))
     else:
@@ -52,11 +52,6 @@ tune = f2(xtune)
 floors = [nearest_lower_note(t) for t in tune]
 ceilings = [nearest_upper_note(t) for t in tune]
 
-print tune
-print [2.0*t for t in tune]
-print "ceilings", ceilings
-print "floors", floors
-
 plt.plot(
     x, y, 'o',
     xnew, f2(xnew), '--',
@@ -64,6 +59,7 @@ plt.plot(
     xtune, ceilings, '-',
     xtune, floors, '-'
 )
+
 plt.legend(['data', 'interpolation', 'tune', 'ceiling', 'floor'], loc='best')
 plt.savefig('clara.png', dpi=200)
 plt.show()
